@@ -1,2 +1,2 @@
 # Introduction
-A simple finite element (SFEM) solver.
+A Finite Element Solver.
