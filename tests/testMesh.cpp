@@ -35,12 +35,6 @@ int main()
     boundary.setDirichletBC(0, 1, -1.0);  // 0号节点第1号自由度约束为 -1.0
     boundary.setDirichletBC(1, 0, 5.0);   // 1号节点第0号自由度约束为 5.0
 
-    // 添加 Neumann 边界条件
-    boundary.setNeumannBC(2, 0,
-                          100.0);  // 2号节点第0号自由度施加 Neumann 边界条件
-    boundary.setNeumannBC(3, 1,
-                          -50.0);  // 3号节点第1号自由度施加 Neumann 边界条件
-
     // 生成全局自由度编号
     mesh.generateGlobalDOFs();
 

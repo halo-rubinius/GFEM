@@ -50,7 +50,14 @@ int GFEM::Node::getNumOfDofs() const
 
 void GFEM::Node::setDegreeOfFreedom(int index, FemIntType dofId)
 {
-    degreesOfFreedom[index] = dofId;
+    if (index >= 0 && index < degreesOfFreedom.size())
+    {
+        degreesOfFreedom[index] = dofId;
+    }
+    else
+    {
+        std::cerr << "Error: Invalid DOF index!" << std::endl;
+    }
 }
 
 void GFEM::Node::setDegreeOfFreedom(const std::vector<FemIntType> &newDofs)

@@ -15,14 +15,11 @@ namespace GFEM
      */
     class BoundaryCondition
     {
+        // TODO: 增加 Neumann 边界条件的支持
     private:
         // Dirichlet 边界条件：{节点ID, {自由度编号 -> 约束值}}
         std::unordered_map<FemIntType, std::unordered_map<int, FemValueType>>
             dirichletBCs;
-
-        // Neumann 边界条件：{节点ID, {自由度编号 -> 导数值}}
-        std::unordered_map<FemIntType, std::unordered_map<int, FemValueType>>
-            neumannBCs;
 
     public:
         /**
@@ -58,39 +55,6 @@ namespace GFEM
          * @param dofIndex 节点的自由度索引
          */
         void removeDirichletBC(FemIntType nodeId, int dofIndex);
-
-        /**
-         * @brief 添加 Neumann 边界条件
-         * @param nodeId 节点的编号ID
-         * @param dofIndex 节点的自由度索引
-         * @param value 施加的 Neumann 边界条件的值
-         */
-        void setNeumannBC(FemIntType nodeId, int dofIndex, FemValueType value);
-
-        /**
-         * @brief 判断某个节点的某个自由度是否有 Neumann 边界条件
-         * @param nodeId 节点的编号ID
-         * @param dofIndex 节点的自由度索引
-         * @return true 有 Neumann 边界条件
-         * @return false 无 Neumann 边界条件
-         */
-        bool hasNeumannBC(FemIntType nodeId, int dofIndex) const;
-
-        /**
-         * @brief 获取某个节点的某个自由度的 Neumann 边界条件值
-         * @param nodeId 节点的编号ID
-         * @param dofIndex 节点的自由度索引
-         * @return Neumann 边界条件值。如果该节点的自由度没有 Neumann
-         * 边界条件，则返回 0.0
-         */
-        FemValueType getNeumannBC(FemIntType nodeId, int dofIndex) const;
-
-        /**
-         * @brief 移除某个节点某个自由度的 Neumann 边界条件
-         * @param nodeId 节点的编号ID
-         * @param dofIndex 节点的自由度索引
-         */
-        void removeNeumannBC(FemIntType nodeId, int dofIndex);
 
         /**
          * @brief 应用 Dirichlet 边界条件到全局刚度矩阵和右端项

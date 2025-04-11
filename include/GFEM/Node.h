@@ -12,7 +12,7 @@ namespace GFEM
     class Node
     {
     private:
-        FemIntType nodeId;  // 唯一标识节点编号
+        FemIntType nodeId;  // 唯一标识节点编号，起始编号为0
 
         /**
          * 存储节点的几何坐标（2D 或3D）
@@ -34,7 +34,7 @@ namespace GFEM
 
         /**
          * @brief 构造函数
-         * @param id 节点编号
+         * @param id 节点编号，起始编号为0
          * @param coords 节点坐标
          * @param numOfDofs 节点自由度数目
          * @param globalOffset 全局自由度编号起始值，一般为0
@@ -44,7 +44,7 @@ namespace GFEM
 
         /**
          * @brief 构造函数
-         * @param id 节点编号
+         * @param id 节点编号，起始编号为0
          * @param coords 节点坐标
          * @param dofs 节点自由度编号
          */

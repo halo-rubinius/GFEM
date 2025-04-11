@@ -45,38 +45,6 @@ namespace GFEM
         }
     }
 
-    void BoundaryCondition::setNeumannBC(FemIntType nodeId, int dofIndex,
-                                         FemValueType value)
-    {
-        neumannBCs[nodeId][dofIndex] = value;
-    }
-
-    bool BoundaryCondition::hasNeumannBC(FemIntType nodeId, int dofIndex) const
-    {
-        return neumannBCs.contains(nodeId)
-               && neumannBCs.at(nodeId).contains(dofIndex);
-    }
-
-    FemValueType BoundaryCondition::getNeumannBC(FemIntType nodeId,
-                                                 int dofIndex) const
-    {
-        return hasNeumannBC(nodeId, dofIndex)
-                   ? neumannBCs.at(nodeId).at(dofIndex)
-                   : 0.0;
-    }
-
-    void BoundaryCondition::removeNeumannBC(FemIntType nodeId, int dofIndex)
-    {
-        if (hasNeumannBC(nodeId, dofIndex))
-        {
-            neumannBCs.at(nodeId).erase(dofIndex);
-            if (neumannBCs.at(nodeId).empty())
-            {
-                neumannBCs.erase(nodeId);
-            }
-        }
-    }
-
     void BoundaryCondition::applyDirichletBC(
         Eigen::SparseMatrix<FemValueType> &globalMatrix,
         Eigen::VectorX<FemValueType> &globalRHS, const std::vector<Node> &nodes)
@@ -100,16 +68,6 @@ namespace GFEM
     {
         std::cout << "Dirichlet BCs:" << std::endl;
         for (const auto &[nodeId, dofs] : dirichletBCs)
-        {
-            for (const auto &[dofIndex, value] : dofs)
-            {
-                std::cout << "Node " << nodeId << ", DOF " << dofIndex << " -> "
-                          << value << std::endl;
-            }
-        }
-
-        std::cout << "Neumann BCs:" << std::endl;
-        for (const auto &[nodeId, dofs] : neumannBCs)
         {
             for (const auto &[dofIndex, value] : dofs)
             {
