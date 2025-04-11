@@ -5,6 +5,7 @@
 
 #include "Eigen/Dense"
 
+#include "GFEM/Material.h"
 #include "GFEM/Node.h"
 #include "GFEM/ShapeFunction.h"
 #include "GFEM/Types.h"
@@ -23,6 +24,8 @@ namespace GFEM
         // 该单元对应的形函数对象
         std::shared_ptr<ShapeFunction> shapeFunction;
 
+        std::shared_ptr<Material> elementMaterial;  // 单元材料
+
     public:
         Element() = delete;
 
@@ -40,11 +43,28 @@ namespace GFEM
         }
 
         /**
+         * @brief 设置单元材料属性
+         * @param material 要设置的材料
+         */
+        void setMaterial(std::shared_ptr<Material> material)
+        {
+            elementMaterial = material;
+        }
+
+        /**
          * @brief 生成单元的坐标矩阵
          * @return
          * 单元坐标矩阵。每一行对应于一个节点的坐标，每一列对应于一个坐标维度
          */
         Eigen::MatrixXd generateCoordinatesMatrix() const;
+
+        /**
+         * @brief 计算单元的形函数值
+         * @param localCoordinates 局部坐标
+         * @return 形函数值
+         */
+        Eigen::VectorXd computeShapeFunction(
+            const std::vector<double> &localCoordinates) const;
 
         /**
          * @brief 计算单元的雅可比矩阵

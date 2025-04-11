@@ -20,6 +20,12 @@ Eigen::MatrixXd GFEM::Element::generateCoordinatesMatrix() const
     return coordinatesMatrix;
 }
 
+Eigen::VectorXd GFEM::Element::computeShapeFunction(
+    const std::vector<double> &localCoordinates) const
+{
+    return shapeFunction->evaluate(localCoordinates);
+}
+
 Eigen::MatrixXd GFEM::Element::computeJacobian(
     const std::vector<double> &localCoordinates) const
 {
