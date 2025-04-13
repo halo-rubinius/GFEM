@@ -25,6 +25,6 @@ Eigen::VectorXd GFEM::IterativeSolver::solve(
     else
     {
         std::cerr << "CG solver failed." << std::endl;
-        return Eigen::VectorXd();
+        return x;
     }
 }

@@ -10,7 +10,7 @@ int main()
 {
     using namespace GFEM;
 
-    std::vector<Node> nodes;
+    std::vector<Node<double>> nodes;
 
     nodes.emplace_back(Node(0, {0.0, 0.0}));
     nodes.emplace_back(Node(1, {2.0, 0.0}));
@@ -21,21 +21,19 @@ int main()
 
     std::shared_ptr<Tri3ShapeFunction> shapeFunction =
         std::make_shared<Tri3ShapeFunction>();
-    Element element(0, {&nodes[0], &nodes[1], &nodes[2]}, shapeFunction);
+    Element element(0, {0, 1, 2}, shapeFunction);
     elements.emplace_back(element);
 
-    element = Element(1, {&nodes[0], &nodes[1], &nodes[2], &nodes[3]},
-                      std::make_shared<Quad4ShapeFunction>());
+    element = Element(1, {0, 1, 2, 3}, std::make_shared<Quad4ShapeFunction>());
     elements.emplace_back(element);
 
-    for (const auto &element : elements)
+    for (auto &element : elements)
     {
         element.print();
 
         std::vector<double> localCoordinates {0.3, 0.6};
 
-        std::cout << "Coordinates Matrix: " << std::endl
-                  << element.generateCoordinatesMatrix() << std::endl;
+        element.generateCoordinatesMatrix(nodes);
 
         std::cout << "Jacobian Matrix: " << std::endl
                   << element.computeJacobian(localCoordinates) << std::endl;
