@@ -71,7 +71,7 @@ namespace GFEM
          * @brief 获取网格所有单元的列表
          * @return 单元列表的引用
          */
-        const std::vector<Element> &getElements() const
+        std::vector<Element> &getElements()
         {
             return elements;
         }

@@ -54,6 +54,38 @@ namespace GFEM
             elementMaterial = material;
         }
 
+        ElementType getElementType() const
+        {
+            return shapeFunction->getElementType();
+        }
+
+        /**
+         * @brief 获取单元编号
+         * @return 单元编号
+         */
+        FemIntType getElementId() const
+        {
+            return elementId;
+        }
+
+        /**
+         * @brief 获取单元上的节点ID列表
+         * @return 单元上的节点ID列表
+         */
+        const std::vector<FemIntType> &getNodeIndices() const
+        {
+            return nodesInElement;
+        }
+
+        /**
+         * @brief 获取单元的节点数量
+         * @return 单元的节点数量
+         */
+        int getNumOfNodes() const
+        {
+            return nodesInElement.size();
+        }
+
         /**
          * @brief 生成单元的坐标矩阵
          * @param nodesInMesh 包含网格所有节点的列表

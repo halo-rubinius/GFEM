@@ -103,6 +103,19 @@ namespace GFEM
             return degreesOfFreedom;
         }
 
+        FemIntType getDegreeOfFreedom(int index) const
+        {
+            if (index >= 0 && index < degreesOfFreedom.size())
+            {
+                return degreesOfFreedom[index];
+            }
+            else
+            {
+                std::cerr << "Error: Invalid DOF index!" << std::endl;
+                return -1;
+            }
+        }
+
         /**
          * @brief 获取节点的自由度数目
          *

@@ -50,6 +50,11 @@ namespace GFEM
         {
             return 3;
         }
+
+        ElementType getElementType() const override
+        {
+            return ElementType::LinearTriangle;
+        }
     };
 
 }  // namespace GFEM

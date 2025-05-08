@@ -6,6 +6,13 @@
 
 namespace GFEM
 {
+    enum class ElementType
+    {
+        None = -1,
+        LinearTriangle,
+        LinearQuadrilateral
+    };
+
     /**
      * @brief 定义单元的形函数基类
      */
@@ -34,6 +41,11 @@ namespace GFEM
          * @return 相关的节点个数
          */
         virtual int getNumOfNodes() const = 0;
+
+        virtual ElementType getElementType() const
+        {
+            return ElementType::None;
+        }
 
         void print(const std::vector<double> &localCoordinates) const
         {

@@ -59,5 +59,10 @@ namespace GFEM
         {
             return 4;
         }
+
+        ElementType getElementType() const override
+        {
+            return ElementType::LinearQuadrilateral;
+        }
     };
 }  // namespace GFEM

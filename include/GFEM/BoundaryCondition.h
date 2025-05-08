@@ -90,18 +90,37 @@ namespace GFEM
                               Eigen::VectorX<FemValueType> &globalRHS,
                               const std::vector<Node<FemValueType>> &nodes)
         {
+            /* 算法思路：将Dirichlet边界条件对应的自由度，行和列均设为0（除对角线元素）。
+             * 并对右端项减去Dirichlet边界条件值与相应矩阵系数的乘积
+             */
+            using Iterator = Eigen::SparseMatrix<FemValueType>::InnerIterator;
+
             for (const auto &[nodeId, dofs] : dirichletBCs)
             {
-                for (const auto &[dofIndex, value] : dofs)
+                for (const auto &[index, value] : dofs)
                 {
-                    int globalDof =
-                        nodes[nodeId].getDegreeOfFreedom()[dofIndex];
+                    FemIntType globalDof =
+                        nodes[nodeId].getDegreeOfFreedom(index);
 
-                    // 将全局矩阵相应自由度上的对角线元素设为1
-                    globalMatrix.coeffRef(globalDof, globalDof) = 1.0;
-
-                    // 将全局RHS相应自由度上的元素设为Dirichlet边界条件值
-                    globalRHS[globalDof] = value;
+                    for (Iterator it(globalMatrix, globalDof); it; ++it)
+                    {
+                        auto &Aij = it.valueRef();
+                        auto irow = it.row();
+                        // 假定it.col() == globalDof.
+                        if (irow != globalDof)
+                        {
+                            // 修改右端项
+                            globalRHS[irow] -= Aij * value;
+                            // 将列设为0
+                            Aij = 0.0;
+                            // XXX: 将行设为0(前提条件是对称矩阵)
+                            globalMatrix.coeffRef(globalDof, irow) = 0.0;
+                        }
+                        else
+                        {
+                            globalRHS[globalDof] = Aij * value;
+                        }
+                    }
                 }
             }
         }
